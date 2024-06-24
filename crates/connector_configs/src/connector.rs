@@ -178,6 +178,7 @@ pub struct ConnectorConfig {
     pub paypal_test: Option<ConnectorTomlConfig>,
     pub zen: Option<ConnectorTomlConfig>,
     pub zsl: Option<ConnectorTomlConfig>,
+    pub esnekpos: Option<ConnectorTomlConfig>,
 }
 
 impl ConnectorConfig {
@@ -253,6 +254,7 @@ impl ConnectorConfig {
             Connector::Bambora => Ok(connector_data.bambora),
             Connector::Dlocal => Ok(connector_data.dlocal),
             Connector::Fiserv => Ok(connector_data.fiserv),
+            Connector::Esnekpos => Ok(connector_data.esnekpos),
             Connector::Forte => Ok(connector_data.forte),
             Connector::Globalpay => Ok(connector_data.globalpay),
             Connector::Globepay => Ok(connector_data.globepay),

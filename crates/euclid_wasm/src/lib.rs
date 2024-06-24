@@ -50,6 +50,7 @@ static SEED_FOREX: OnceCell<currency_conversion_types::ExchangeRates> = OnceCell
 /// to all different currencies present.
 #[wasm_bindgen(js_name = setForexData)]
 pub fn seed_forex(forex: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let forex: currency_conversion_types::ExchangeRates = serde_wasm_bindgen::from_value(forex)?;
     SEED_FOREX
         .set(forex)
@@ -64,6 +65,7 @@ pub fn seed_forex(forex: JsValue) -> JsResult {
 /// enum.
 #[wasm_bindgen(js_name = convertCurrency)]
 pub fn convert_forex_value(amount: i64, from_currency: JsValue, to_currency: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let forex_data = SEED_FOREX
         .get()
         .ok_or("Forex Data not seeded")
@@ -82,6 +84,7 @@ pub fn convert_forex_value(amount: i64, from_currency: JsValue, to_currency: JsV
 /// connector accounts from the API.
 #[wasm_bindgen(js_name = seedKnowledgeGraph)]
 pub fn seed_knowledge_graph(mcas: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let mcas: Vec<admin_api::MerchantConnectorResponse> = serde_wasm_bindgen::from_value(mcas)?;
     let connectors: Vec<ast::ConnectorChoice> = mcas
         .iter()
@@ -116,6 +119,7 @@ pub fn seed_knowledge_graph(mcas: JsValue) -> JsResult {
 /// the rule
 #[wasm_bindgen(js_name = getValidConnectorsForRule)]
 pub fn get_valid_connectors_for_rule(rule: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let seed_data = SEED_DATA.get().ok_or("Data not seeded").err_to_js()?;
 
     let rule: ast::Rule<ConnectorSelection> = serde_wasm_bindgen::from_value(rule)?;
@@ -170,6 +174,7 @@ pub fn get_valid_connectors_for_rule(rule: JsValue) -> JsResult {
 
 #[wasm_bindgen(js_name = analyzeProgram)]
 pub fn analyze_program(js_program: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let program: ast::Program<ConnectorSelection> = serde_wasm_bindgen::from_value(js_program)?;
     analyzer::analyze(program, SEED_DATA.get().map(|sd| &sd.kgraph)).err_to_js()?;
     Ok(JsValue::NULL)
@@ -177,6 +182,7 @@ pub fn analyze_program(js_program: JsValue) -> JsResult {
 
 #[wasm_bindgen(js_name = runProgram)]
 pub fn run_program(program: JsValue, input: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let program: ast::Program<ConnectorSelection> = serde_wasm_bindgen::from_value(program)?;
     let input: inputs::BackendInput = serde_wasm_bindgen::from_value(input)?;
 
@@ -190,6 +196,7 @@ pub fn run_program(program: JsValue, input: JsValue) -> JsResult {
 
 #[wasm_bindgen(js_name = getAllConnectors)]
 pub fn get_all_connectors() -> JsResult {
+    console_error_panic_hook::set_once();
     Ok(serde_wasm_bindgen::to_value(
         common_enums::RoutableConnectors::VARIANTS,
     )?)
@@ -197,6 +204,7 @@ pub fn get_all_connectors() -> JsResult {
 
 #[wasm_bindgen(js_name = getAllKeys)]
 pub fn get_all_keys() -> JsResult {
+    console_error_panic_hook::set_once();
     let keys: Vec<&'static str> = dir::DirKeyKind::VARIANTS
         .iter()
         .copied()
@@ -214,12 +222,14 @@ pub fn get_key_type(key: &str) -> Result<String, String> {
 
 #[wasm_bindgen(js_name = getThreeDsKeys)]
 pub fn get_three_ds_keys() -> JsResult {
+    console_error_panic_hook::set_once();
     let keys = <ConditionalConfigs as EuclidDirFilter>::ALLOWED;
     Ok(serde_wasm_bindgen::to_value(keys)?)
 }
 
 #[wasm_bindgen(js_name= getSurchargeKeys)]
 pub fn get_surcharge_keys() -> JsResult {
+    console_error_panic_hook::set_once();
     let keys = <SurchargeDecisionConfigs as EuclidDirFilter>::ALLOWED;
     Ok(serde_wasm_bindgen::to_value(keys)?)
 }
@@ -275,6 +285,7 @@ pub fn add_two(n1: i64, n2: i64) -> i64 {
 
 #[wasm_bindgen(js_name = getDescriptionCategory)]
 pub fn get_description_category() -> JsResult {
+    console_error_panic_hook::set_once();
     let keys = dir::DirKeyKind::VARIANTS
         .iter()
         .copied()
@@ -299,6 +310,7 @@ pub fn get_description_category() -> JsResult {
 
 #[wasm_bindgen(js_name = getConnectorConfig)]
 pub fn get_connector_config(key: &str) -> JsResult {
+    console_error_panic_hook::set_once();
     let key = api_model_enums::Connector::from_str(key)
         .map_err(|_| "Invalid key received".to_string())?;
     let res = connector::ConnectorConfig::get_connector_config(key)?;
@@ -308,7 +320,8 @@ pub fn get_connector_config(key: &str) -> JsResult {
 #[cfg(feature = "payouts")]
 #[wasm_bindgen(js_name = getPayoutConnectorConfig)]
 pub fn get_payout_connector_config(key: &str) -> JsResult {
-    let key = api_model_enums::PayoutConnectors::from_str(key)
+    console_error_panic_hook::set_once();
+    let key: api_model_enums::PayoutConnectors = api_model_enums::PayoutConnectors::from_str(key)
         .map_err(|_| "Invalid key received".to_string())?;
     let res = connector::ConnectorConfig::get_payout_connector_config(key)?;
     Ok(serde_wasm_bindgen::to_value(&res)?)
@@ -316,6 +329,7 @@ pub fn get_payout_connector_config(key: &str) -> JsResult {
 
 #[wasm_bindgen(js_name = getAuthenticationConnectorConfig)]
 pub fn get_authentication_connector_config(key: &str) -> JsResult {
+    console_error_panic_hook::set_once();
     let key = api_model_enums::AuthenticationConnectors::from_str(key)
         .map_err(|_| "Invalid key received".to_string())?;
     let res = connector::ConnectorConfig::get_authentication_connector_config(key)?;
@@ -324,6 +338,7 @@ pub fn get_authentication_connector_config(key: &str) -> JsResult {
 
 #[wasm_bindgen(js_name = getRequestPayload)]
 pub fn get_request_payload(input: JsValue, response: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let input: DashboardRequestPayload = serde_wasm_bindgen::from_value(input)?;
     let api_response: ConnectorApiIntegrationPayload = serde_wasm_bindgen::from_value(response)?;
     let result = DashboardRequestPayload::create_connector_request(input, api_response);
@@ -332,6 +347,7 @@ pub fn get_request_payload(input: JsValue, response: JsValue) -> JsResult {
 
 #[wasm_bindgen(js_name = getResponsePayload)]
 pub fn get_response_payload(input: JsValue) -> JsResult {
+    console_error_panic_hook::set_once();
     let input: ConnectorApiIntegrationPayload = serde_wasm_bindgen::from_value(input)?;
     let result = ConnectorApiIntegrationPayload::get_transformed_response_payload(input);
     Ok(serde_wasm_bindgen::to_value(&result)?)
@@ -340,6 +356,7 @@ pub fn get_response_payload(input: JsValue) -> JsResult {
 #[cfg(feature = "payouts")]
 #[wasm_bindgen(js_name = getAllPayoutKeys)]
 pub fn get_all_payout_keys() -> JsResult {
+    console_error_panic_hook::set_once();
     let keys: Vec<&'static str> = dir::PayoutDirKeyKind::VARIANTS.to_vec();
     Ok(serde_wasm_bindgen::to_value(&keys)?)
 }
@@ -368,6 +385,7 @@ pub fn get_payout_variant_values(key: &str) -> Result<JsValue, JsValue> {
 #[cfg(feature = "payouts")]
 #[wasm_bindgen(js_name = getPayoutDescriptionCategory)]
 pub fn get_payout_description_category() -> JsResult {
+    console_error_panic_hook::set_once();
     let keys = dir::PayoutDirKeyKind::VARIANTS.to_vec();
     let mut category: HashMap<Option<&str>, Vec<types::PayoutDetails<'_>>> = HashMap::new();
     for key in keys {

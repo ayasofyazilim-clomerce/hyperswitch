@@ -1,0 +1,6 @@
+[submodule "hyperswitch-web"]
+	path = hyperswitch-web
+	url = git@github.com:adnanjpg/hyperswitch-web.git
+[submodule "hyperswitch-control-center"]
+	path = hyperswitch-control-center
+	url = git@github.com:adnanjpg/hyperswitch-control-center.git

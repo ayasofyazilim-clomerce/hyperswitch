@@ -129,6 +129,7 @@ pub enum RoutableConnectors {
     Cybersource,
     Dlocal,
     // Ebanx,
+    Esnekpos,
     Fiserv,
     Forte,
     Globalpay,

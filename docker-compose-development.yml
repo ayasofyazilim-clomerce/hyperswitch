@@ -8,8 +8,10 @@ volumes:
   drainer_build_cache:
   redisinsight_store:
 
+
 networks:
   router_net:
+
 
 services:
   ### Dependencies
@@ -62,6 +64,7 @@ services:
       - cargo_cache:/cargo_cache
       - router_build_cache:/cargo_build_cache
     environment:
+      - RUSTFLAGS=-Awarnings
       - CARGO_HOME=/cargo_cache
       - CARGO_TARGET_DIR=/cargo_build_cache
     labels:
@@ -297,14 +300,9 @@ services:
       - redisinsight_store:/db
 
   hyperswitch-control-center:
-    image: juspaydotin/hyperswitch-control-center:latest
-    networks:
-      - router_net
-    ports:
-      - "9000:9000"
-    environment:
-      apiBaseUrl:  http://localhost:8080
-      sdkBaseUrl: http://localhost:9050/HyperLoader.js
+    extends:
+      file: ./hyperswitch-control-center/docker-compose-development.yml
+      service: base
 
   hyperswitch-web-sdk:
     build:
@@ -313,7 +311,7 @@ services:
         RUN git clone https://github.com/juspay/hyperswitch-web.git --depth 1
         WORKDIR hyperswitch-web
         RUN npm i --force
-    command: bash -c 'npm run re:build && npx run webpack serve --config webpack.dev.js --host 0.0.0.0'
+    command: bash -c 'npm run re:build && npx webpack serve --config webpack.dev.js --host 0.0.0.0'
     ports:
       - "9050:9050"
     environment:

@@ -501,6 +501,7 @@ pub struct Connectors {
     #[cfg(feature = "dummy_connector")]
     pub dummyconnector: ConnectorParams,
     pub ebanx: ConnectorParams,
+    pub esnekpos: ConnectorParams,
     pub fiserv: ConnectorParams,
     pub forte: ConnectorParams,
     pub globalpay: ConnectorParams,

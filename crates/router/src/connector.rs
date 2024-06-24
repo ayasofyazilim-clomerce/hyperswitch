@@ -18,6 +18,7 @@ pub mod dlocal;
 #[cfg(feature = "dummy_connector")]
 pub mod dummyconnector;
 pub mod ebanx;
+pub mod esnekpos;
 pub mod fiserv;
 pub mod forte;
 pub mod globalpay;
@@ -67,13 +68,13 @@ pub use self::{
     bambora::Bambora, bankofamerica::Bankofamerica, billwerk::Billwerk, bitpay::Bitpay,
     bluesnap::Bluesnap, boku::Boku, braintree::Braintree, cashtocode::Cashtocode,
     checkout::Checkout, coinbase::Coinbase, cryptopay::Cryptopay, cybersource::Cybersource,
-    dlocal::Dlocal, ebanx::Ebanx, fiserv::Fiserv, forte::Forte, globalpay::Globalpay,
-    globepay::Globepay, gocardless::Gocardless, helcim::Helcim, iatapay::Iatapay, klarna::Klarna,
-    mollie::Mollie, multisafepay::Multisafepay, netcetera::Netcetera, nexinets::Nexinets, nmi::Nmi,
-    noon::Noon, nuvei::Nuvei, opayo::Opayo, opennode::Opennode, payeezy::Payeezy, payme::Payme,
-    paypal::Paypal, payu::Payu, placetopay::Placetopay, powertranz::Powertranz,
-    prophetpay::Prophetpay, rapyd::Rapyd, riskified::Riskified, shift4::Shift4, signifyd::Signifyd,
-    square::Square, stax::Stax, stripe::Stripe, threedsecureio::Threedsecureio, trustpay::Trustpay,
-    tsys::Tsys, volt::Volt, wise::Wise, worldline::Worldline, worldpay::Worldpay, zen::Zen,
-    zsl::Zsl,
+    dlocal::Dlocal, ebanx::Ebanx, esnekpos::Esnekpos, fiserv::Fiserv, forte::Forte,
+    globalpay::Globalpay, globepay::Globepay, gocardless::Gocardless, helcim::Helcim,
+    iatapay::Iatapay, klarna::Klarna, mollie::Mollie, multisafepay::Multisafepay,
+    netcetera::Netcetera, nexinets::Nexinets, nmi::Nmi, noon::Noon, nuvei::Nuvei, opayo::Opayo,
+    opennode::Opennode, payeezy::Payeezy, payme::Payme, paypal::Paypal, payu::Payu,
+    placetopay::Placetopay, powertranz::Powertranz, prophetpay::Prophetpay, rapyd::Rapyd,
+    riskified::Riskified, shift4::Shift4, signifyd::Signifyd, square::Square, stax::Stax,
+    stripe::Stripe, threedsecureio::Threedsecureio, trustpay::Trustpay, tsys::Tsys, volt::Volt,
+    wise::Wise, worldline::Worldline, worldpay::Worldpay, zen::Zen, zsl::Zsl,
 };

@@ -1783,6 +1783,10 @@ pub(crate) fn validate_auth_and_metadata_type(
             dlocal::transformers::DlocalAuthType::try_from(val)?;
             Ok(())
         }
+        api_enums::Connector::Esnekpos => {
+            esnekpos::transformers::EsnekposAuthType::try_from(val)?;
+            Ok(())
+        }
         api_enums::Connector::Fiserv => {
             fiserv::transformers::FiservAuthType::try_from(val)?;
             fiserv::transformers::FiservSessionObject::try_from(connector_meta_data)?;
